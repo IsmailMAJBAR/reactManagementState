@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
+import Spinner from "./Spinner";
 import { getProducts } from "./services/productService";
 
 export default function App() {
   const [size, setSize] = useState("");
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProducts("shoes").then((response) => setProducts(response)).catch((error) => setError(error));
+    getProducts("shoes")
+      .then((response) => setProducts(response))
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
   }, []);
 
   function renderProduct(p) {
@@ -30,6 +35,8 @@ export default function App() {
     : products;
 
   if (error) throw error;
+
+  if (loading) return <Spinner />;
 
   return (
     <>
