@@ -1,54 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Cart from "./Cart";
+import Detail from "./Detail";
 import Footer from "./Footer";
 import Header from "./Header";
-import Spinner from "./Spinner";
-import useFetch from "./services/useFetch";
+import Products from "./Products";
+
 
 export default function App() {
-  const [size, setSize] = useState("");
-
-  const { data: products, loading, error } = useFetch("products");
-
-  function renderProduct(p) {
-    return (
-      <div key={ p.id } className="product">
-        <a href="/">
-          <img src={ `/images/${ p.image }` } alt={ p.name } />
-          <h3>{ p.name }</h3>
-          <p>${ p.price }</p>
-        </a>
-      </div>
-    );
-  };
-
-  const filterProduct = size
-    ? products.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
-    : products;
-
-  if (error) throw error;
-
-  if (loading) return <Spinner />;
 
   return (
     <>
       <div className="content">
         <Header />
         <main>
-          <section id="filters">
-            <label htmlFor="size">Filter by Size:</label>{ " " }
-            <select id="size" value={ size }
-              onChange={ (event) => setSize(event.target.value) }>
-              <option value='' >All sizes</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-            </select>
-          </section>
-          { size && <h2>Found { filterProduct.length }  items</h2> }
-          <section id="products">
-            { filterProduct.map(renderProduct) }
-          </section>
+          <Routes>
+            <Route path="/" element={ <h1>Welcome to the shop</h1> } />
+            <Route path="/:category" element={ <Products /> } />
+            <Route path="/cart" element={ <Cart /> } />
+            <Route path="/detail" element={ <Detail /> } />
+          </Routes>
         </main>
       </div>
       <Footer />
