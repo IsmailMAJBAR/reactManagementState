@@ -1,32 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import Spinner from "./Spinner";
-import { getProducts } from "./services/productService";
+import useFetch from "./services/useFetch";
 
 export default function App() {
   const [size, setSize] = useState("");
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function init() {
-      try {
-        const response = await getProducts("shoes");
-        setProducts(response);
-      }
-      catch (error) {
-        setError(error);
-      }
-      finally {
-        setLoading(false);
-      }
-    };
-    init();
-  },
-    []);
+  const { data: products, loading, error } = useFetch("products");
 
   function renderProduct(p) {
     return (
@@ -38,7 +20,7 @@ export default function App() {
         </a>
       </div>
     );
-  }
+  };
 
   const filterProduct = size
     ? products.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
