@@ -5,7 +5,7 @@ import Spinner from "./Spinner";
 import useFetch from "./services/useFetch";
 
 
-export default function Detail() {
+export default function Detail(props) {
   const [sku, setSize] = useState("");
 
   const { id, category } = useParams();
@@ -15,7 +15,12 @@ export default function Detail() {
 
   function renderAvSizeOptions(p) {
     return (
-      <option key={ p.sku } value={ p.sku }>{ p.size }</option>
+      <option
+        key={ p.sku }
+        value={ p.sku }
+      >
+        { p.size }
+      </option>
     );
   };
 
@@ -40,7 +45,19 @@ export default function Detail() {
           { product.skus.map(renderAvSizeOptions) }
         </select>
       </section>
-      <p ><button className="btn btn-primary" onClick={ () => navigate("/cart") }>Add to Cart</button></p>
+      <p>
+        <button
+          disabled={ !sku }
+          className="btn btn-primary"
+          onClick={
+            () => {
+              props.addToCart(id, sku);
+              navigate("/cart")
+            }
+          }>
+          Add to Cart
+        </button></p>
+
       <img style={ { "width": "500px" } } src={ `/images/${ product.image }` } alt={ category } />
     </div >
 
