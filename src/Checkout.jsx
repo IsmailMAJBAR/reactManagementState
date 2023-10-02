@@ -18,6 +18,8 @@ export default function Checkout({ cart, emptyCart }) {
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [formError, setFormError] = useState(null);
+  const [touched, setTouched] = useState({});
+
 
   const getErrors = (address) => {
     const result = {}
@@ -39,6 +41,9 @@ export default function Checkout({ cart, emptyCart }) {
 
   function handleBlur(event) {
     // TODO
+    setTouched((curr) => {
+      return { ...curr, [event.target.id]: true };
+    })
   }
 
   async function handleSubmit(event) {
@@ -91,6 +96,9 @@ export default function Checkout({ cart, emptyCart }) {
             onBlur={ handleBlur }
             onChange={ handleChange }
           />
+          <p role="alert">
+            { (touched.city || status === STATUS.SUBMITTED) && error.city }
+          </p>
         </div>
 
         <div>
@@ -109,6 +117,10 @@ export default function Checkout({ cart, emptyCart }) {
             <option value="France">France</option>
             <option value="USA">USA</option>
           </select>
+
+          <p role="alert">
+            { (touched.country || status === STATUS.SUBMITTED) && error.country }
+          </p>
         </div>
 
         <div>
