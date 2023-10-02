@@ -69,6 +69,11 @@
       "city": "fes",
       "country": "China",
       "id": 2
+    },
+    {
+      "city": "",
+      "country": "",
+      "id": 3
     }
   ]
 }

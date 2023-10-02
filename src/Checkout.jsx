@@ -19,6 +19,16 @@ export default function Checkout({ cart, emptyCart }) {
   const [status, setStatus] = useState(STATUS.IDLE);
   const [formError, setFormError] = useState(null);
 
+  const getErrors = (address) => {
+    const result = {}
+    if (!address.city) result.city = "City is required";
+    if (!address.country) result.country = "Country is required";
+    return result;
+  }
+  const error = getErrors(address);
+
+  const isValid = Object.keys(error).length === 0;
+
   function handleChange(e) {
     // TODO
     e.persist();
@@ -35,14 +45,20 @@ export default function Checkout({ cart, emptyCart }) {
     // TODO
     event.preventDefault();
     setStatus(STATUS.SUBMITTING);
-    try {
-      await saveShippingAddress(address);
-      emptyCart();
-      setStatus(STATUS.COMPLETED);
-    } catch (e) {
-      setFormError(e);
+    if (isValid) {
+      try {
+        await saveShippingAddress(address);
+        emptyCart();
+        setStatus(STATUS.COMPLETED);
+      } catch (e) {
+        setFormError(e);
+      }
+    } else {
+      setStatus(STATUS.SUBMITTED);
     }
   }
+
+
 
   if (formError) throw formError;
 
@@ -53,6 +69,17 @@ export default function Checkout({ cart, emptyCart }) {
   return (
     <>
       <h1>Shipping Info</h1>
+      { !isValid && status === STATUS.SUBMITTED && (
+        <div role="alert">
+          <p>Please fix the following errors :</p>
+          <ul>
+            { Object.keys(error).map((key) => {
+              return <li key={ key }>{ error[key] }</li>
+            }) }
+          </ul>
+        </div>
+      )
+      }
       <form onSubmit={ handleSubmit }>
         <div>
           <label htmlFor="city">City</label>
