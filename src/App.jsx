@@ -7,6 +7,7 @@ import Detail from "./Detail"; //import Detail from "./DetailRef";
 import Footer from "./Footer";
 import Header from "./Header";
 import Products from "./Products";
+import { CartContext } from "./cartContext";
 import cartReducer from "./cartReducer";
 
 let initialCart;
@@ -29,7 +30,7 @@ export default function App() {
 
 
   return (
-    <>
+    <CartContext.Provider value={ { cart, dispatch } }>
       <div className="content">
         <Header />
         <main>
@@ -43,27 +44,21 @@ export default function App() {
               element={ <Products /> } />
             <Route
               path="/cart"
-              element={
-                <Cart
-                  cart={ cart }
-                  dispatch={ dispatch }
-                />
-              }
+              element={ <Cart /> }
             />
             <Route
               path="/:category/:id"
-              element={ <Detail
-                dispatch={ dispatch } />
+              element={ <Detail />
               }
             />
             <Route
               path="/checkout"
-              element={ <Checkout cart={ cart } dispatch={ dispatch } /> }
+              element={ <Checkout /> }
             />
           </Routes>
         </main>
       </div>
       <Footer />
-    </>
+    </CartContext.Provider>
   );
 }

@@ -1,11 +1,14 @@
-import { default as React, useState } from "react";
+import { default as React, useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import Spinner from "./Spinner";
+import { CartContext } from "./cartContext";
 import useFetch from "./services/useFetch";
 
 
-export default function Detail(props) {
+export default function Detail() {
+  const { cart, dispatch } = useContext(CartContext);
+
   const [sku, setSize] = useState("");
 
   const { id, category } = useParams();
@@ -51,7 +54,7 @@ export default function Detail(props) {
           className="btn btn-primary"
           onClick={
             () => {
-              props.dispatch({ type: "addToCart", id, sku });
+              dispatch({ type: "addToCart", id, sku });
               navigate("/cart")
             }
           }>
