@@ -9,33 +9,17 @@ import Header from "./Header";
 import Products from "./Products";
 
 export default function App() {
-
-
-
   return (
     <>
       <div className="content">
         <Header />
         <main>
           <Routes>
-            <Route
-              path="/"
-              element={ <h1>Welcome to the shop</h1> }
-            />
-            <Route
-              path="/:category"
-              element={ <Products /> } />
-            <Route
-              path="/cart"
-              element={ <Cart /> } />
-            <Route
-              path="/:category/:id"
-              element={ <Detail />
-              }
-            />
-            <Route
-              path="/checkout"
-              element={ <Checkout /> } />
+            <Route path="/" element={ <h1>Welcome to the shop</h1> } />
+            <Route path="/:category" element={ <Products /> } />
+            <Route path="/cart" element={ <Cart /> } />
+            <Route path="/:category/:id" element={ <Detail /> } />
+            <Route path="/checkout" element={ <Checkout /> } />
           </Routes>
         </main>
       </div>
