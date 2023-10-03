@@ -51,7 +51,7 @@ export default function Detail(props) {
           className="btn btn-primary"
           onClick={
             () => {
-              props.addToCart(id, sku);
+              props.dispatch({ type: "addToCart", id, sku });
               navigate("/cart")
             }
           }>

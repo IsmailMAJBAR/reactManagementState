@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { saveShippingAddress } from "./services/shippingService";
-
 // Declaring outside component to avoid recreation on each render
 const emptyAddress = {
   city: "",
@@ -14,7 +13,7 @@ const STATUS = {
   COMPLETED: "COMPLETED"
 }
 
-export default function Checkout({ cart, emptyCart }) {
+export default function Checkout({ cart, dispatch }) {
   const [address, setAddress] = useState(emptyAddress);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [formError, setFormError] = useState(null);
@@ -32,7 +31,6 @@ export default function Checkout({ cart, emptyCart }) {
   const isValid = Object.keys(error).length === 0;
 
   function handleChange(e) {
-    // TODO
     e.persist();
     setAddress((currentAddress) => {
       return { ...currentAddress, [e.target.id]: e.target.value }
@@ -40,20 +38,18 @@ export default function Checkout({ cart, emptyCart }) {
   }
 
   function handleBlur(event) {
-    // TODO
     setTouched((curr) => {
       return { ...curr, [event.target.id]: true };
     })
   }
 
   async function handleSubmit(event) {
-    // TODO
     event.preventDefault();
     setStatus(STATUS.SUBMITTING);
     if (isValid) {
       try {
         await saveShippingAddress(address);
-        emptyCart();
+        dispatch({ type: "empty" });
         setStatus(STATUS.COMPLETED);
       } catch (e) {
         setFormError(e);
