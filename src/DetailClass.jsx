@@ -21,58 +21,62 @@ class Detail extends React.Component {
     sku: "",
   };
 
-
-  static contextType = CartContext;
-
   render() {
 
     const { id, navigate } = this.props;
     const { sku } = this.state;
 
     return (
-      <Fetch url={ `products/${ id }` }>
-        { (product, loading, error) => {
-
-          if (error) throw error;
-          if (loading) return <Spinner />;
-          if (!product) return <PageNotFound />;
-
+      <CartContext.Consumer>
+        { ({ dispatch }) => {
           return (
-            <div id="detail">
-              <h1>{ product.name }</h1>
-              <p>{ product.description }</p>
-              <p id="price">${ product.price }</p>
-              <section id="filters">
-                <label htmlFor="size">Filter by Size:</label>{ " " }
-                <select id="size" value={ sku } onChange={ (event) =>
-                  this.setState({ sku: event.target.value })
-                }>
-                  <option value=''>what size ?</option>
-                  { product.skus.map(renderAvSizeOptions) }
-                </select>
-              </section>
-              <p>
-                <button
-                  disabled={ !sku }
-                  className="btn btn-primary"
-                  onClick={
-                    () => {
-                      this.context.dispatch({ type: "addToCart", id, sku });
-                      navigate("/cart")
-                    }
-                  }>
-                  Add to Cart
-                </button></p>
+            <Fetch url={ `products/${ id }` }>
+              { (product, loading, error) => {
 
-              <img
-                style={ { "width": "500px" } }
-                src={ `/images/${ product.image }` }
-                alt={ product.category }
-              />
-            </div >
+                if (error) throw error;
+                if (loading) return <Spinner />;
+                if (!product) return <PageNotFound />;
+
+                return (
+                  <div id="detail">
+                    <h1>{ product.name }</h1>
+                    <p>{ product.description }</p>
+                    <p id="price">${ product.price }</p>
+                    <section id="filters">
+                      <label htmlFor="size">Filter by Size:</label>{ " " }
+                      <select id="size" value={ sku } onChange={ (event) =>
+                        this.setState({ sku: event.target.value })
+                      }>
+                        <option value=''>what size ?</option>
+                        { product.skus.map(renderAvSizeOptions) }
+                      </select>
+                    </section>
+                    <p>
+                      <button
+                        disabled={ !sku }
+                        className="btn btn-primary"
+                        onClick={
+                          () => {
+                            dispatch({ type: "addToCart", id, sku });
+                            navigate("/cart")
+                          }
+                        }>
+                        Add to Cart
+                      </button></p>
+
+                    <img
+                      style={ { "width": "500px" } }
+                      src={ `/images/${ product.image }` }
+                      alt={ product.category }
+                    />
+                  </div >
+                );
+              } }
+            </Fetch>
           );
+
         } }
-      </Fetch>
+      </CartContext.Consumer>
     );
   }
 }
