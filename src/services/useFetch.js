@@ -40,7 +40,7 @@ export default function useFetch(url) {
 };
 
 
-export function Fetch({ url, renderProp }) {
+export function Fetch({ url, children }) {
   const { data, loading, error } = useFetch(url);
-  return renderProp(data, loading, error);
+  return children(data, loading, error);
 }

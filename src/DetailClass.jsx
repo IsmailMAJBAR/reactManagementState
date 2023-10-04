@@ -29,10 +29,8 @@ class Detail extends React.Component {
     const { sku } = this.state;
 
     return (
-      <Fetch
-        url={ `products/${ id }` }
-        renderProp={ (product, loading, error) => {
-
+      <Fetch url={ `products/${ id }` }>
+        { (product, loading, error) => {
 
           if (error) throw error;
           if (loading) return <Spinner />;
@@ -73,7 +71,7 @@ class Detail extends React.Component {
             </div >
           );
         } }
-      />
+      </Fetch>
     );
   }
 }
