@@ -11,7 +11,7 @@ export default function Products() {
   const [size, setSize] = useState("");
   const { category } = useParams();
 
-  const fetchProducts = async (key, category) => {
+  const fetchProducts = async (category) => {
     const response = await fetch(process.env.REACT_APP_API_BASE_URL + "products?category=" + category);
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -22,7 +22,7 @@ export default function Products() {
   const { data: products, isLoading, error } =
     useQuery({
       queryKey: ['productsCacheData'],
-      queryFn: () => fetchProducts('productsCacheData', category),
+      queryFn: () => fetchProducts(category),
     });
 
   function renderProduct(p) {

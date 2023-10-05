@@ -1,14 +1,52 @@
 import React from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 import { useCartContext } from "./cartContext";
-import useFetchAll from "./services/useFetchAll";
 
 export default function Cart() {
   const { cart, dispatch } = useCartContext();
   const urls = cart.map((i) => `products/${ i.id }`);
-  const { data: products, loading, error } = useFetchAll(urls);
+  const fetchCartItems = async (urls) => {
+    const response = await Promise.all(
+      urls.map(
+        async url => {
+          const rep = await fetch(process.env.REACT_APP_API_BASE_URL + url);
+          if (!rep.ok) {
+            throw new Error(`fetching ${ url } was not ok`);
+          }
+          return rep.json();
+        }
+      )
+    );
+    return response;
+  };
+  // const fetchCartItems = async (urls) => {
+  //   const data = await Promise.all(
+  //     urls.map(async url => {
+  //       const response = await fetch(process.env.REACT_APP_API_BASE_URL + url);
+  //       if (!response.ok) {
+  //         throw new Error(`Fetching ${ url } resulted in ${ response.statusText }`);
+  //       }
+  //       return response.json();
+  //     })
+  //   );
+  //   return data;
+  // };
+
+  // const { data: products, loading, error } = useFetchAll(urls);
+  const { data: products, loading, error } =
+    useQuery({
+      queryKey: ['cartData'],
+      queryFn: () => fetchCartItems(urls),
+    });
+
+
+  console.log(products);
   const navigate = useNavigate();
+
+  if (loading || !products) return <Spinner />;
+  if (error) return <div>Error loading product: { error.message }</div>;
 
   function renderItem(itemInCart) {
     const { id, sku, quantity } = itemInCart;
@@ -16,6 +54,8 @@ export default function Cart() {
       (p) => p.id === parseInt(id)
     );
     const { size } = skus.find((s) => s.sku === sku);
+    console.log(id); // 3. Check the id
+
 
     return (
       <li key={ sku } className="cart-item">
