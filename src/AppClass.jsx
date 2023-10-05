@@ -1,4 +1,5 @@
 import React from "react";
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Cart from "./Cart";
@@ -9,7 +10,9 @@ import Header from "./Header";
 import Products from "./Products";
 import { useCartContext } from "./cartContext";
 
-export default function App() {
+const queryClient = new QueryClient();
+
+export function App() {
   const { dispatch } = useCartContext();
   return (
     <>
@@ -29,3 +32,11 @@ export default function App() {
     </>
   );
 }
+
+const WrappedApp = () => (
+  <QueryClientProvider client={ queryClient }>
+    <App />
+  </QueryClientProvider>
+);
+
+export default WrappedApp;

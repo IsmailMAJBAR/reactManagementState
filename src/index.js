@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import App from "./AppClass";
+import WrappedApp from "./AppClass";
 import ErrorBoundary from "./ErrorBoundary";
 import { CartProvider } from "./cartContext";
 
@@ -10,7 +10,7 @@ ReactDOM.render(
   <ErrorBoundary>
     <BrowserRouter>
       <CartProvider>
-        <App />
+        <WrappedApp />
       </CartProvider>
     </BrowserRouter>
   </ErrorBoundary>

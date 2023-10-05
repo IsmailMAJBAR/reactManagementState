@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { useQuery } from 'react-query';
 import { useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import Spinner from "./Spinner";
-import useFetch from "./services/useFetch";
 
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,20 @@ import { Link } from "react-router-dom";
 export default function Products() {
   const [size, setSize] = useState("");
   const { category } = useParams();
-  const { data: products, loading, error } = useFetch("products?category=" + category);
+
+  const fetchProducts = async (key, category) => {
+    const response = await fetch(process.env.REACT_APP_API_BASE_URL + "products?category=" + category);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  };
+
+  const { data: products, isLoading, error } =
+    useQuery({
+      queryKey: ['productsCacheData'],
+      queryFn: () => fetchProducts('productsCacheData', category),
+    });
 
   function renderProduct(p) {
     return (
@@ -30,7 +43,7 @@ export default function Products() {
 
   if (error) throw error;
 
-  if (loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   if (products.length === 0) return <PageNotFound />;
 
