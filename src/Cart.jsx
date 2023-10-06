@@ -7,13 +7,14 @@ import { useCartContext } from "./cartContext";
 export default function Cart() {
   const { cart, dispatch } = useCartContext();
   const urls = cart.map((i) => `products/${ i.id }`);
+
   const fetchCartItems = async (urls) => {
     const response = await Promise.all(
       urls.map(
         async url => {
           const rep = await fetch(process.env.REACT_APP_API_BASE_URL + url);
           if (!rep.ok) {
-            throw new Error(`fetching ${ url } was not ok`);
+            throw new Error(`fetching ${ url } was not ok. Return status:${ rep.status }`);
           }
           return rep.json();
         }
@@ -35,27 +36,28 @@ export default function Cart() {
   // };
 
   // const { data: products, loading, error } = useFetchAll(urls);
-  const { data: products, loading, error } =
+
+  const { data: products, isLoading, error } =
     useQuery({
       queryKey: ['cartData'],
       queryFn: () => fetchCartItems(urls),
+      retry: 0,
     });
 
-
-  console.log(products);
   const navigate = useNavigate();
-
-  if (loading || !products) return <Spinner />;
-  if (error) return <div>Error loading product: { error.message }</div>;
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   function renderItem(itemInCart) {
     const { id, sku, quantity } = itemInCart;
-    const { price, name, image, skus } = products.find(
+    const avProduct = products.find(
       (p) => p.id === parseInt(id)
     );
-    const { size } = skus.find((s) => s.sku === sku);
-    console.log(id); // 3. Check the id
 
+    if (!avProduct) {
+      return <Spinner key={ `spinner-${ sku }` } />; // or return a placeholder or error message
+    }
+    const { price, name, image, skus } = avProduct;
+    const { size } = skus.find((s) => s.sku === sku);
 
     return (
       <li key={ sku } className="cart-item">
@@ -85,11 +87,8 @@ export default function Cart() {
     );
   }
 
-  if (loading) return <Spinner />;
-  if (error) throw error;
-
-
-  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+  if (error) throw new Error("cart error", error);
+  if (isLoading || !products) return <Spinner />;
 
   return (
     <section id="cart">
@@ -105,3 +104,4 @@ export default function Cart() {
     </section>
   );
 }
+

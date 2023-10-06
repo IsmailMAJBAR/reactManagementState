@@ -23,6 +23,7 @@ export default function Products() {
     useQuery({
       queryKey: ['productsCacheData'],
       queryFn: () => fetchProducts(category),
+      retry: 0,
     });
 
   function renderProduct(p) {
