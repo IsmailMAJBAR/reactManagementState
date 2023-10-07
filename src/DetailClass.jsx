@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import Spinner from "./Spinner";
 import { CartContext } from "./cartContext";
-import { Fetch } from "./services/useFetch";
+import { Fetch } from "./services/useFetchQuery";
 
 export default function DetailWrapper() {
   const { id } = useParams();
