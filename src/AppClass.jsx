@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Cart from "./Cart";
-import Checkout from "./CheckoutClass";
+import Checkout from "./CheckoutFormik";
 import DetailWrapper from "./DetailClass"; //import Detail from "./DetailRef";
 import Footer from "./Footer";
 import Header from "./Header";
