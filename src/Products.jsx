@@ -37,27 +37,25 @@ export default function Products() {
       </div>
     );
   };
+  const allSizes = products ? [...new Set(products.flatMap(p => p.skus.map(s => s.size)))] : [];
 
   const filterProduct = size
     ? products.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
     : products;
 
   if (error) throw error;
-
   if (isLoading) return <Spinner />;
-
   if (products.length === 0) return <PageNotFound />;
-
 
   return (
     <>
       <section id="filters">
-        <label htmlFor="size">Filter by Size:</label>{ " " }
+        <label htmlFor="size">Filter by Size:</label>
         <select id="size" value={ size } onChange={ (event) => setSize(event.target.value) }>
           <option value=''>All sizes</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
+          { allSizes.map(sizeValue => (
+            <option key={ sizeValue } value={ sizeValue }>{ sizeValue }</option>
+          )) }
         </select>
       </section>
       { size && <h2>Found { filterProduct.length } items</h2> }

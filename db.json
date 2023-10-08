@@ -67,15 +67,15 @@
       "skus": [
         {
           "sku": "41",
-          "size": 1
+          "size": 101
         },
         {
           "sku": "42",
-          "size": 2
+          "size": 102
         },
         {
           "sku": "43",
-          "size": 3
+          "size": 103
         }
       ],
       "description": "This backpacs has all you need."
@@ -89,15 +89,15 @@
       "skus": [
         {
           "sku": "56",
-          "size": 6
+          "size": 201
         },
         {
           "sku": "57",
-          "size": 7
+          "size": 202
         },
         {
           "sku": "58",
-          "size": 8
+          "size": 203
         }
       ],
       "description": "This backpacs is what you want."

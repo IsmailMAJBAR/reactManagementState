@@ -54,6 +54,7 @@ export default function Cart() {
           <p>Size: { size }</p>
           <p>
             <select
+              name={ sku }
               aria-label={ `Select quantity for ${ name } size ${ size }` }
               onChange={ (e) =>
                 dispatch({ type: "updateQuantity", sku, quantity: parseInt(e.target.value) })
