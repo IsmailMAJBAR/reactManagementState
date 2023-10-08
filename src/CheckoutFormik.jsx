@@ -26,12 +26,12 @@ export default function Checkout() {
   const { dispatch } = useCartContext();
   const [saveError, setSaveError] = useState(null);
 
-  function getErrors(address) {
-    const result = {};
-    if (!address.city) result.city = "City is required.";
-    if (!address.country) result.country = "Country is required.";
-    return result;
-  }
+  // function getErrors(address) {
+  //   const result = {};
+  //   if (!address.city) result.city = "City is required.";
+  //   if (!address.country) result.country = "Country is required.";
+  //   return result;
+  // }
 
   async function handleSubmit(address, formikProps) {
     const { setStatus, setSubmitting, isValid } = formikProps;

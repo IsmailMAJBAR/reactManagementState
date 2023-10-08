@@ -21,7 +21,7 @@ export default function Products() {
 
   const { data: products, isLoading, error } =
     useQuery({
-      queryKey: ['productsCacheData'],
+      queryKey: ['productsCacheData', category],
       queryFn: () => fetchProducts(category),
       retry: 0,
     });

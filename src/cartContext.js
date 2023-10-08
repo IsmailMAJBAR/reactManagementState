@@ -7,7 +7,7 @@ export const CartContext = createContext(null);
 let initialCart;
 
 try {
-  initialCart = JSON.parse(localStorage.getItem("cart")) ?? []
+  initialCart = JSON.parse(localStorage.getItem("cart")) ?? [];
 } catch {
   console.error("cart could not be parsed into json");
   initialCart = [];
@@ -18,7 +18,7 @@ export function CartProvider(props) {
 
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart))
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   return <CartContext.Provider value={ { cart, dispatch } }>

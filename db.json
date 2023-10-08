@@ -57,28 +57,51 @@
         }
       ],
       "description": "Look stylish while stomping in the mud."
+    },
+    {
+      "id": 4,
+      "category": "backpack",
+      "image": "backpack1.jpg",
+      "name": "Decathlon",
+      "price": 88.88,
+      "skus": [
+        {
+          "sku": "41",
+          "size": 1
+        },
+        {
+          "sku": "42",
+          "size": 2
+        },
+        {
+          "sku": "43",
+          "size": 3
+        }
+      ],
+      "description": "This backpacs has all you need."
+    },
+    {
+      "id": 5,
+      "category": "backpack",
+      "image": "backpack2.jpg",
+      "name": "Intersport",
+      "price": 99.99,
+      "skus": [
+        {
+          "sku": "56",
+          "size": 6
+        },
+        {
+          "sku": "57",
+          "size": 7
+        },
+        {
+          "sku": "58",
+          "size": 8
+        }
+      ],
+      "description": "This backpacs is what you want."
     }
   ],
-  "shippingAddress": [
-    {
-      "id": 1,
-      "city": "",
-      "country": ""
-    },
-    {
-      "city": "fes",
-      "country": "China",
-      "id": 2
-    },
-    {
-      "city": "",
-      "country": "",
-      "id": 3
-    },
-    {
-      "city": "kk",
-      "country": "Canada",
-      "id": 4
-    }
-  ]
+  "shippingAddress": []
 }

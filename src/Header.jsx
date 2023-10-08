@@ -2,7 +2,15 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./header.css";
 
+import { useCartContext } from "./cartContext";
+
+
+
+
 export default function Header() {
+  const { cart, dispatch } = useCartContext();
+  const itemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <header>
       <nav>
@@ -20,8 +28,15 @@ export default function Header() {
             </NavLink>
           </li>
           <li>
+            <NavLink
+              className={ ({ isActive }) => (isActive ? "active" : "") }
+              to="/backpack">
+              Backpack
+            </NavLink>
+          </li>
+          <li>
             <NavLink className={ ({ isActive }) => (isActive ? "active" : "") } to="/cart">
-              Cart
+              { itemsInCart === 0 ? "Cart" : "Cart (" + itemsInCart + ")" }
             </NavLink>
           </li>
         </ul>

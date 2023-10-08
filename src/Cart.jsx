@@ -22,20 +22,6 @@ export default function Cart() {
     );
     return response;
   };
-  // const fetchCartItems = async (urls) => {
-  //   const data = await Promise.all(
-  //     urls.map(async url => {
-  //       const response = await fetch(process.env.REACT_APP_API_BASE_URL + url);
-  //       if (!response.ok) {
-  //         throw new Error(`Fetching ${ url } resulted in ${ response.statusText }`);
-  //       }
-  //       return response.json();
-  //     })
-  //   );
-  //   return data;
-  // };
-
-  // const { data: products, loading, error } = useFetchAll(urls);
 
   const { data: products, isLoading, error } =
     useQuery({
@@ -45,7 +31,10 @@ export default function Cart() {
     });
 
   const navigate = useNavigate();
-  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+  const itemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
+
+  console.log("🚀 ~ file: Cart.jsx:36 ~ Cart ~ itemsInCart:", itemsInCart)
+
 
   function renderItem(itemInCart) {
     const { id, sku, quantity } = itemInCart;
@@ -92,7 +81,7 @@ export default function Cart() {
 
   return (
     <section id="cart">
-      <h1>{ totalItems === 0 ? " You have no item yet." : totalItems > 1 ? `You have ${ totalItems } items.` : "You have 1 item." }</h1>
+      <h1>{ itemsInCart === 0 ? " You have no item yet." : itemsInCart > 1 ? `You have ${ itemsInCart } items.` : "You have 1 item." }</h1>
       { cart.length > 0 && <button
         className="btn btn-primary"
         onClick={ () => { navigate("/checkout") }
