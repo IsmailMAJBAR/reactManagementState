@@ -1,14 +1,10 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useCartContext } from "./cartContext";
 import "./header.css";
 
-import { useCartContext } from "./cartContext";
-
-
-
-
 export default function Header() {
-  const { cart, dispatch } = useCartContext();
+  const { cart } = useCartContext();
   const itemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (

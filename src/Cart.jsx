@@ -33,9 +33,6 @@ export default function Cart() {
   const navigate = useNavigate();
   const itemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
-  console.log("🚀 ~ file: Cart.jsx:36 ~ Cart ~ itemsInCart:", itemsInCart)
-
-
   function renderItem(itemInCart) {
     const { id, sku, quantity } = itemInCart;
     const avProduct = products.find(

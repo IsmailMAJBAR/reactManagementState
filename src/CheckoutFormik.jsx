@@ -34,23 +34,15 @@ export default function Checkout() {
   // }
 
   async function handleSubmit(address, formikProps) {
-    const { setStatus, setSubmitting, isValid } = formikProps;
-    console.log("🚀 ~ file: CheckoutFormik.jsx:38 ~ handleSubmit ~ isValid:", isValid)
+    const { setStatus, setSubmitting } = formikProps;
     setStatus(STATUS.SUBMITTING);
-
-
     try {
       await saveShippingAddress(address);
       dispatch({ type: "empty" });
       setSubmitting(false);
       setStatus(STATUS.COMPLETED);
-    } catch (err) {
-      setSaveError(err);
-    }
-
+    } catch (err) { setSaveError(err); }
   }
-
-
 
   return (
     <Formik
