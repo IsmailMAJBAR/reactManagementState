@@ -4,8 +4,11 @@ import { useCartContext } from "./cartContext";
 import "./header.css";
 
 export default function Header() {
-  const { cart } = useCartContext();
-  const itemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
+  const { itemsInCart } = useCartContext();
+  //useMemo
+  // const itemsInCart = useMemo(() => {
+  //   return cart.reduce((total, item) => total + item.quantity, 0);
+  // }, [cart]);
 
   return (
     <header>

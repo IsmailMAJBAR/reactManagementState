@@ -15,13 +15,13 @@ try {
 
 export function CartProvider(props) {
   const [cart, dispatch] = useReducer(cartReducer, initialCart);
-
+  const itemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  return <CartContext.Provider value={ { cart, dispatch } }>
+  return <CartContext.Provider value={ { cart, dispatch, itemsInCart } }>
     { props.children }
   </CartContext.Provider>
 }
